@@ -19,6 +19,7 @@ const Cat = () => {
     );
   };
 
+  const [bntname, setbtnname] = useState("calcular");
   const [inputvalue, setinputvalue] = useState("");
   const [inicialsize, setnewsize] = useState("");
   const [result, setresult] = useState("");
@@ -28,13 +29,28 @@ const Cat = () => {
   const textchanged = (text) => {
     setinputvalue(text);
   };
-
   const btn = () => {
-    setresult(inputvalue / (inicialsize * inicialsize));
+    setresult((inputvalue / (inicialsize * inicialsize)).toFixed(2));
+    setbtnname("calcular novamente");
   };
+  const youstate = () => {
+    if (result < 18.5) {
+      return "Baixo peso";
+    }
+    if (result >= 18.5 && result <= 24.99) {
+      return "normal";
+    }
+    if (result >= 25 && result <= 29.99) {
+      return "sobrepeso";
+    }
+    if (result >= 30) {
+      return "Obesidade";
+    }
+  };
+
   return (
     <View style={styles.mainwindow}>
-      <Text>ONEBITHEALTH</Text>
+      <Text style={{ fontSize: 20, color: "red" }}>ONEBITHEALTH</Text>
 
       <View style={styles.secondwindow}>
         <Text style={styles.items}>Peso</Text>
@@ -53,16 +69,27 @@ const Cat = () => {
           value={inicialsize}
           onChangeText={setnewsize}
         ></TextInput>
-        <CustomButton title="calcular" onPress={btn}></CustomButton>
+        <CustomButton title={bntname} onPress={btn}></CustomButton>
 
-        <Text style={styles.items}>seu peso é:{result}</Text>
+        <Text style={styles.items}>seu imc é:{result}</Text>
       </View>
+      <Text
+        style={{
+          marginTop: 60,
+          color: "red",
+          fontSize: 19,
+        }}
+      >
+        {youstate()}
+      </Text>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   mainwindow: {
-    backgroundColor: "#B0C4DE",
+    flex: 1,
+    backgroundColor: "#DCDCDC",
     alignItems: "center",
     padding: 100,
   },
@@ -82,10 +109,17 @@ const styles = StyleSheet.create({
     width: 200,
   },
   button: {
-    backgroundColor: "black",
+    height: 40,
+    borderRadius: 12,
+    marginTop: 50,
+    backgroundColor: "red",
+    width: 200,
   },
   buttonText: {
     color: "white",
+    marginTop: 10,
+    fontSize: 15,
+    textAlign: "center",
   },
 });
 
